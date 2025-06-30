@@ -105,8 +105,8 @@
         const currentPath = window.location.pathname;
         const urlParams = new URLSearchParams(window.location.search);
         
-        // 如果是/post_it_note_share/new路径，处理Universal Link
-        if (currentPath === '/post_it_note_share/new') {
+        // 如果是/share路径，处理Universal Link
+        if (currentPath === '/share') {
             const noteText = urlParams.get('text');
             const downloadBtn = document.getElementById('downloadBtn');
             const redirectText = document.getElementById('redirectText');

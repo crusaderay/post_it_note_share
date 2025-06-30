@@ -63,6 +63,7 @@ echo "📋 Copying files..."
 SOURCE_DIR="$(dirname "$0")"
 cp "$SOURCE_DIR/index.html" .
 cp "$SOURCE_DIR/apple-app-site-association" .
+cp "$SOURCE_DIR/404.html" .
 mkdir -p .well-known
 cp "$SOURCE_DIR/.well-known/apple-app-site-association" .well-known/
 mkdir -p u/entry
