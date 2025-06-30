@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memo Sticky - 便签分享</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            max-width: 400px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border-radius: 18px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .subtitle {
+            margin: 0 0 30px;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .note-preview {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            border-left: 4px solid #FFD700;
+        }
+        .note-text {
+            font-style: italic;
+            margin: 0;
+            word-break: break-word;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+        .download-btn:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+        .redirect-info {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-icon">📝</div>
+        <h1>Memo Sticky</h1>
+        <p class="subtitle">智能便签应用</p>
+        
+        <div id="notePreview" class="note-preview" style="display: none;">
+            <p class="note-text" id="noteText"></p>
+        </div>
+        
+        <a href="#" id="downloadBtn" class="download-btn">下载应用</a>
+        
+        <p class="redirect-info">
+            <span id="redirectText">正在跳转到 App Store...</span>
+        </p>
+    </div>
+
+    <script>
+        // 检查当前路径是否为Universal Link路径
+        const currentPath = window.location.pathname;
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 如果是/post_it_note_share/new路径，处理Universal Link
+        if (currentPath === '/post_it_note_share/new') {
+            const noteText = urlParams.get('text');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const redirectText = document.getElementById('redirectText');
+            const notePreview = document.getElementById('notePreview');
+            const noteTextElement = document.getElementById('noteText');
+            
+            // 如果有便签内容，显示预览
+            if (noteText) {
+                const decodedText = decodeURIComponent(noteText);
+                noteTextElement.textContent = `"${decodedText}"`;
+                notePreview.style.display = 'block';
+                redirectText.textContent = '安装应用后将自动创建这条便签';
+            }
+            
+            // 设置App Store链接
+            const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1508032147'; // 请替换为实际的App Store链接
+            downloadBtn.href = APP_STORE_URL;
+            
+            // 检测设备类型并自动跳转
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            if (isIOS) {
+                downloadBtn.textContent = '从 App Store 下载';
+                // 自动跳转到App Store
+                setTimeout(() => {
+                    window.location.href = APP_STORE_URL;
+                }, 3000);
+            } else {
+                downloadBtn.textContent = '下载应用';
+                redirectText.textContent = '请在iOS设备上打开此链接';
+            }
+        } else {
+            // 如果不是Universal Link路径，重定向到主页
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>
