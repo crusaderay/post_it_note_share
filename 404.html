@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memo Sticky - 便签分享</title>
+    <title>Memo Sticky - Note Sharing</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -87,25 +87,25 @@
     <div class="container">
         <div class="app-icon">📝</div>
         <h1>Memo Sticky</h1>
-        <p class="subtitle">智能便签应用</p>
+        <p class="subtitle">Smart Note Taking App</p>
         
         <div id="notePreview" class="note-preview" style="display: none;">
             <p class="note-text" id="noteText"></p>
         </div>
         
-        <a href="#" id="downloadBtn" class="download-btn">下载应用</a>
+        <a href="#" id="downloadBtn" class="download-btn">Download App</a>
         
         <p class="redirect-info">
-            <span id="redirectText">正在跳转到 App Store...</span>
+            <span id="redirectText">Redirecting to App Store...</span>
         </p>
     </div>
 
     <script>
-        // 检查当前路径是否为Universal Link路径
+        // Check if current path is Universal Link path
         const currentPath = window.location.pathname;
         const urlParams = new URLSearchParams(window.location.search);
         
-        // 如果是/share路径，处理Universal Link
+        // If /share path, handle Universal Link
         if (currentPath === '/share') {
             const noteText = urlParams.get('text');
             const downloadBtn = document.getElementById('downloadBtn');
@@ -113,32 +113,32 @@
             const notePreview = document.getElementById('notePreview');
             const noteTextElement = document.getElementById('noteText');
             
-            // 如果有便签内容，显示预览
+            // If there's note content, show preview
             if (noteText) {
                 const decodedText = decodeURIComponent(noteText);
                 noteTextElement.textContent = `"${decodedText}"`;
                 notePreview.style.display = 'block';
-                redirectText.textContent = '安装应用后将自动创建这条便签';
+                redirectText.textContent = 'This note will be created automatically after installing the app';
             }
             
-            // 设置App Store链接
-            const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1508032147'; // 请替换为实际的App Store链接
+            // Set App Store link
+            const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1508032147'; // Replace with actual App Store link
             downloadBtn.href = APP_STORE_URL;
             
-            // 检测设备类型并自动跳转
+            // Detect device type and auto redirect
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             if (isIOS) {
-                downloadBtn.textContent = '从 App Store 下载';
-                // 自动跳转到App Store
+                downloadBtn.textContent = 'Download from App Store';
+                // Auto redirect to App Store
                 setTimeout(() => {
                     window.location.href = APP_STORE_URL;
                 }, 3000);
             } else {
-                downloadBtn.textContent = '下载应用';
-                redirectText.textContent = '请在iOS设备上打开此链接';
+                downloadBtn.textContent = 'Download App';
+                redirectText.textContent = 'Please open this link on an iOS device';
             }
         } else {
-            // 如果不是Universal Link路径，重定向到主页
+            // If not Universal Link path, redirect to homepage
             window.location.href = '/index.html';
         }
     </script>

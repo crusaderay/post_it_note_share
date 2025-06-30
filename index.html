@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memo Sticky - 便签应用</title>
+    <title>Memo Sticky - Note Taking App</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -93,27 +93,27 @@
     <div class="container">
         <div class="app-icon">📝</div>
         <h1>Memo Sticky</h1>
-        <p class="subtitle">智能便签应用</p>
+        <p class="subtitle">Smart Note Taking App</p>
         
         <div id="notePreview" class="note-preview" style="display: none;">
             <p class="note-text" id="noteText"></p>
         </div>
         
-        <a href="#" id="downloadBtn" class="download-btn">下载应用</a>
+        <a href="#" id="downloadBtn" class="download-btn">Download App</a>
         
         <p class="redirect-info">
-            <span id="redirectText">正在跳转到 App Store...</span>
+            <span id="redirectText">Redirecting to App Store...</span>
         </p>
     </div>
 
     <script>
-        // 解析URL参数
+        // Parse URL parameters
         function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // 检测设备类型
+        // Detect device type
         function isIOS() {
             return /iPad|iPhone|iPod/.test(navigator.userAgent);
         }
@@ -122,11 +122,11 @@
             return /Android/.test(navigator.userAgent);
         }
 
-        // App Store链接
-        const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1234567890'; // 请替换为实际的App Store链接
-        const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.dongjiezhang.Post-It-Notes'; // 如果有Android版本
+        // App Store links
+        const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1234567890'; // Replace with actual App Store link
+        const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.dongjiezhang.Post-It-Notes'; // If Android version available
 
-        // 初始化页面
+        // Initialize page
         function initPage() {
             const noteText = getUrlParameter('text');
             const downloadBtn = document.getElementById('downloadBtn');
@@ -134,28 +134,28 @@
             const notePreview = document.getElementById('notePreview');
             const noteTextElement = document.getElementById('noteText');
 
-            // 如果有便签内容，显示预览
+            // If there's note content, show preview
             if (noteText) {
                 const decodedText = decodeURIComponent(noteText);
                 noteTextElement.textContent = `"${decodedText}"`;
                 notePreview.style.display = 'block';
-                redirectText.textContent = '安装应用后将自动创建这条便签';
+                redirectText.textContent = 'This note will be created automatically after installing the app';
             }
 
-            // 设置下载链接
+            // Set download links
             if (isIOS()) {
                 downloadBtn.href = APP_STORE_URL;
-                downloadBtn.textContent = '从 App Store 下载';
+                downloadBtn.textContent = 'Download from App Store';
             } else if (isAndroid()) {
                 downloadBtn.href = GOOGLE_PLAY_URL;
-                downloadBtn.textContent = '从 Google Play 下载';
+                downloadBtn.textContent = 'Download from Google Play';
             } else {
                 downloadBtn.href = APP_STORE_URL;
-                downloadBtn.textContent = '下载应用';
-                redirectText.textContent = '请在移动设备上打开此链接';
+                downloadBtn.textContent = 'Download App';
+                redirectText.textContent = 'Please open this link on a mobile device';
             }
 
-            // 自动跳转（仅在移动设备上）
+            // Auto redirect (mobile devices only)
             if (isIOS() || isAndroid()) {
                 setTimeout(() => {
                     window.location.href = downloadBtn.href;
@@ -163,7 +163,7 @@
             }
         }
 
-        // 页面加载完成后初始化
+        // Initialize after page load
         document.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
