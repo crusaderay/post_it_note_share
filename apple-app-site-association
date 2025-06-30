@@ -1,11 +1,11 @@
 {
-  "applinks": {
-    "apps": [],
-    "details": [
-      {
-        "appID": "3HWBZVW7QW.com.dongjiezhang.Post-It-Notes",
-        "paths": [ "/post_it_note_share/u/entry*" ]
-      }
-    ]
-  }
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "3HWBZVW7QW.com.dongjiezhang.Post-It-Notes",
+                "paths": ["/post_it_note_share/new"]
+            }
+        ]
+    }
 }

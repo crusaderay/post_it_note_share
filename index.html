@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memo Sticky - Download</title>
-    <meta http-equiv="refresh" content="3;url=https://apps.apple.com/app/memo-sticky/id1508032147">
+    <title>Memo Sticky - 便签应用</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            text-align: center;
         }
         .container {
+            text-align: center;
             max-width: 400px;
-            padding: 2rem;
+            padding: 40px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             backdrop-filter: blur(10px);
@@ -29,40 +29,63 @@
             width: 80px;
             height: 80px;
             background: #fff;
-            border-radius: 16px;
-            margin: 0 auto 1rem;
+            border-radius: 18px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         h1 {
-            margin: 0 0 1rem;
-            font-size: 1.8rem;
+            margin: 0 0 10px;
+            font-size: 28px;
             font-weight: 600;
         }
-        p {
-            margin: 0 0 2rem;
+        .subtitle {
+            margin: 0 0 30px;
             opacity: 0.9;
-            line-height: 1.5;
+            font-size: 16px;
         }
         .download-btn {
             display: inline-block;
-            padding: 12px 24px;
-            background: #fff;
-            color: #333;
+            background: #007AFF;
+            color: white;
             text-decoration: none;
+            padding: 15px 30px;
             border-radius: 25px;
             font-weight: 600;
-            transition: transform 0.2s;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
         .download-btn:hover {
+            background: #0056CC;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+        .note-preview {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            border-left: 4px solid #FFD700;
+        }
+        .note-text {
+            font-style: italic;
+            margin: 0;
+            word-break: break-word;
         }
         .redirect-info {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            opacity: 0.7;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -70,16 +93,78 @@
     <div class="container">
         <div class="app-icon">📝</div>
         <h1>Memo Sticky</h1>
-        <p>Create and organize your notes with ease. Download Memo Sticky from the App Store to get started!</p>
-        <a href="https://apps.apple.com/app/memo-sticky/id1508032147" class="download-btn">Download from App Store</a>
-        <p class="redirect-info">Redirecting automatically in 3 seconds...</p>
+        <p class="subtitle">智能便签应用</p>
+        
+        <div id="notePreview" class="note-preview" style="display: none;">
+            <p class="note-text" id="noteText"></p>
+        </div>
+        
+        <a href="#" id="downloadBtn" class="download-btn">下载应用</a>
+        
+        <p class="redirect-info">
+            <span id="redirectText">正在跳转到 App Store...</span>
+        </p>
     </div>
 
     <script>
-        // Try to open the app first, then fallback to App Store
-        setTimeout(() => {
-            window.location.href = 'https://apps.apple.com/app/memo-sticky/id1508032147';
-        }, 3000);
+        // 解析URL参数
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 检测设备类型
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        }
+
+        function isAndroid() {
+            return /Android/.test(navigator.userAgent);
+        }
+
+        // App Store链接
+        const APP_STORE_URL = 'https://apps.apple.com/app/memo-sticky/id1234567890'; // 请替换为实际的App Store链接
+        const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.dongjiezhang.Post-It-Notes'; // 如果有Android版本
+
+        // 初始化页面
+        function initPage() {
+            const noteText = getUrlParameter('text');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const redirectText = document.getElementById('redirectText');
+            const notePreview = document.getElementById('notePreview');
+            const noteTextElement = document.getElementById('noteText');
+
+            // 如果有便签内容，显示预览
+            if (noteText) {
+                const decodedText = decodeURIComponent(noteText);
+                noteTextElement.textContent = `"${decodedText}"`;
+                notePreview.style.display = 'block';
+                redirectText.textContent = '安装应用后将自动创建这条便签';
+            }
+
+            // 设置下载链接
+            if (isIOS()) {
+                downloadBtn.href = APP_STORE_URL;
+                downloadBtn.textContent = '从 App Store 下载';
+            } else if (isAndroid()) {
+                downloadBtn.href = GOOGLE_PLAY_URL;
+                downloadBtn.textContent = '从 Google Play 下载';
+            } else {
+                downloadBtn.href = APP_STORE_URL;
+                downloadBtn.textContent = '下载应用';
+                redirectText.textContent = '请在移动设备上打开此链接';
+            }
+
+            // 自动跳转（仅在移动设备上）
+            if (isIOS() || isAndroid()) {
+                setTimeout(() => {
+                    window.location.href = downloadBtn.href;
+                }, 3000);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
 </html>
